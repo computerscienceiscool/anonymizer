@@ -13,6 +13,8 @@ The **Data Anonymizer** is a command-line tool written in Go that anonymizes sen
   - **Pseudonymization**: Replaces data with random placeholders.
   - **Hashing**: Applies irreversible hashing (e.g., SHA-256).
   - **Generalization**: Broadens specific values into categories.
+  - **Phone Masking**: Masks phone numbers, keeping the first three digits and masking the rest.
+
 - **Customizable**: Specify columns and techniques via command-line arguments.
 - **Logging**: Logs anonymization activities for transparency.
 - **Security**: Avoids storing sensitive data in memory longer than necessary.
@@ -48,23 +50,37 @@ The **Data Anonymizer** is a command-line tool written in Go that anonymizes sen
 | `--techniques` | Comma-separated list of anonymization techniques.         |
 | `--help`       | Displays usage information.                               |
 
-### Example
+### Supported Anonymization Techniques
+
+| Technique      | Description                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+| `mask`         | Replace data with partial information or asterisks.                        |
+| `pseudonymize` | Replace data with random placeholders (e.g., "Person 1").                  |
+| `hash`         | Apply irreversible hashing (e.g., SHA-256).                                |
+| `generalize`   | Replace numeric data with broader categories (e.g., 29 → "20-29").         |
+| `phone_mask`   | Keep the first three digits of a phone number, masking the rest (e.g., `555-****`). |
+
+### Example Command
 ```bash
-./data-anonymizer --input test_data.csv --columns "Name,Email,Phone" --techniques "mask,hash,pseudonymize"
+./data-anonymizer --input test_data.csv --columns "Name,Email,Phone" --techniques "mask,hash,phone_mask"
 ```
 
-#### Input (test_data.csv)
+---
+
+#### Example Input
 ```csv
 Name,Email,Age,Phone
 John Doe,john.doe@example.com,29,555-1234
 Jane Smith,jane.smith@example.com,34,555-5678
 ```
 
-#### Output (test_data_output.csv)
+---
+
+#### Example Output
 ```csv
 Name,Email,Age,Phone
-Jo********,e3b0c44298fc1c149afbf4c8996fb924,29,Phone 1
-Ja********,c81e728d9d4c2f636f067f89cc14862c,34,Phone 2
+Jo******,836f82db99121b3481011f16b49dfa5fbc714a0d1b1b9f784a1ebbbf5b39577f,29,555-****
+Ja********,f2d1f1c853fd1f4be1eb5060eaae93066c877d069473795e31db5e70c4880859,34,555-****
 ```
 
 ---
@@ -85,3 +101,4 @@ New anonymization techniques can be added by modifying the `anonymize` function 
 
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for details.
+

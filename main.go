@@ -1,5 +1,4 @@
 // Description: This program reads a CSV file and anonymizes the specified columns using the specified techniques.
-// Usage: go run main.go --input=input.csv --columns=column1,column2 --techniques=mask,pseudonymize
 
 package main
 
@@ -22,6 +21,7 @@ const (
 	Pseudonymize = "pseudonymize"
 	Hash         = "hash"
 	Generalize   = "generalize"
+	PhoneMask    = "phone_mask"
 )
 
 // Global pseudonym map
@@ -128,11 +128,13 @@ func main() {
 func anonymize(data, technique string) string {
 	switch technique {
 	case Mask:
+		// Masking logic: show only the first 2 characters
 		if len(data) > 2 {
 			return data[:2] + strings.Repeat("*", len(data)-2)
 		}
 		return strings.Repeat("*", len(data))
 	case Pseudonymize:
+		// Pseudonymize logic: replace with random placeholders
 		if pseudonym, exists := pseudonymMap[data]; exists {
 			return pseudonym
 		}
@@ -140,19 +142,26 @@ func anonymize(data, technique string) string {
 		pseudonymMap[data] = pseudonym
 		return pseudonym
 	case Hash:
+		// Hashing logic: SHA-256 hash
 		hash := sha256.Sum256([]byte(data))
 		return fmt.Sprintf("%x", hash)
 	case Generalize:
+		// Generalization logic: categorize numeric data
 		if num, err := strconv.Atoi(data); err == nil {
 			return fmt.Sprintf("%d-%d", (num/10)*10, (num/10)*10+9)
 		}
 		return "Unknown"
+	case PhoneMask:
+		// Mask phone numbers: keep the first 3 digits and mask the rest
+		if len(data) > 4 {
+			return data[:3] + "-" + strings.Repeat("*", len(data)-4)
+		}
+		return strings.Repeat("*", len(data))
 	default:
 		return data
 	}
 }
 
-// init seeds the random number generator.
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
