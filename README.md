@@ -62,7 +62,7 @@ The **Data Anonymizer** is a command-line tool written in Go that anonymizes sen
 
 ### Example Command
 ```bash
-./data-anonymizer --input test_data.csv --columns "Name,Email,Phone" --techniques "mask,hash,phone_mask"
+./anonymizer --input test_data.csv --columns "Name,Email,Phone" --techniques "mask,hash,phone_mask"
 ```
 
 ---
