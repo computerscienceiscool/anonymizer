@@ -30,12 +30,12 @@ The **Data Anonymizer** is a command-line tool written in Go that anonymizes sen
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/<your-username>/data-anonymizer.git
-   cd data-anonymizer
+   git clone https://github.com/computerscienceiscool/anonymizer.git
+   cd anonymizer
    ```
 2. Build the executable:
    ```bash
-   go build -o data-anonymizer main.go
+   go build anonymizer main.go
    ```
 
 ---
