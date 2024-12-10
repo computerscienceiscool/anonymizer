@@ -35,7 +35,7 @@ The **Data Anonymizer** is a command-line tool written in Go that anonymizes sen
    ```
 2. Build the executable:
    ```bash
-   go build anonymizer main.go
+   go build -o anonymizer
    ```
 
 ---
